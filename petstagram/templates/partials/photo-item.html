@@ -5,7 +5,7 @@
     <div class="top">
         <div class="userDetails">
             <!-- Link to User Profile Page -->
-            <a href="{% url 'details user' pk=1 %}">
+            <a href="{% url 'details user' pk=request.user.pk %}">
                 <div class="profilepic">
                     <div class="profile_img">
                         <div class="image">
@@ -16,11 +16,16 @@
             </a>
             <h3>
                 <!-- Link to User Profile Page -->
-                <a href="{% url 'details user' pk=1 %}">
+                <a href="{% url 'details user' pk=request.user.pk %}">
                     <!-- if user has first name and last name -->
-                    Diyan Kalaydzhiev
+                    {% if photo.user.get_full_name %}
+                        {{ photo.user.get_full_name }}
+{#                    Diyan Kalaydzhiev#}
                     <!-- else -->
+                    {% else %}
+                        {{ photo.user.username }}
                     <!-- show user username -->
+                    {% endif %}
                 </a>
                 <br>
                 {% if photo.location %}
@@ -112,7 +117,7 @@
 
         {% for pet in photo.tagged_pets.all %}
             {# TODO: change username to actual user when auth is available #}
-            <a href="{% url 'details pet' username='sasho' pet_slug=pet.slug %}">
+            <a href="{% url 'details pet' username=pet.user.username pet_slug=pet.slug %}">
                 <p class="message">
                     <b>{{ pet.name }}</b>
                 </p>

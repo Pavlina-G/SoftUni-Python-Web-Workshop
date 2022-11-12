@@ -7,3 +7,12 @@ class StrFromFieldsMixin:
         #     f'{f}={self.__dict__[f]}' for f in self.str_fields
         # )
 
+
+class ChoicesEnumMixin:
+    @classmethod
+    def choices(cls):
+        return [(x.name, x.value) for x in cls]
+
+    @classmethod
+    def max_len(cls):
+        return max(len(name) for name, _ in cls.choices())

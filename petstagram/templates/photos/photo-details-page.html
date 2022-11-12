@@ -25,11 +25,16 @@
                         <h3>
 
                             <!-- Link to User Profile Details Page -->
-                            <a href="#">
+                            <a href="{% url 'details user' pk=request.user.pk %}">
                                 <!-- IF user has first name and last name -->
-                                Diyan Kalaydzhiev
-                                <!-- else -->
+                                 {% if photo.user.get_full_name %}
+                                    {{ photo.user.get_full_name }}
+                                     <!-- else -->
                                 <!-- show user username -->
+                                {% else %}
+                                    {{ photo.user.username }}
+                                {% endif %}
+
                             </a>
                             <br>
 
@@ -38,6 +43,7 @@
                                 <span>{{ photo.location }}</span>
                             {% endif %}
 
+                            {% if is_owner %}
                             <!-- IF the viewer is the creator of the photo -->
                             <div class="edit-delete-btns">
 
@@ -53,6 +59,7 @@
                                          alt="bin button">
                                 </a>
                             </div>
+                        {% endif %}
                             <!-- End IF the viewer is the creator of the photo -->
 
                         </h3>
@@ -62,7 +69,7 @@
                 </div>
 
                 <!-- Start Pet Photo -->
-                <div class="imgBx" id="place the id of the photo here">
+                <div class="imgBx" id="{{ photo.pk }}">
                     <!-- Pet Photo -->
                     <img src="/media/{{ photo.photo }}" alt="photo of the pets {{ photo.tagged_pets.all|join:', ' }}"
                          class="cover">
@@ -149,21 +156,16 @@
 
                     <!-- Start Tagged Pets Section-->
                     <!-- Link to First Tagged Pet Details Page -->
-                    <a href="#">
+                    {% for pet in photo.tagged_pets.all %}
+                    <a href="{% url 'details pet' pet_slug=pet.slug username=pet.user.username %}">
                         <p class="message">
-                            <b>Sasho</b>
+                            <b>{{ pet.name }}</b>
                         </p>
                     </a>
-                    <!-- Link to Second Tagged Pet Details Page -->
-                    <a href="#">
-                        <p class="message">
-                            <b>Some other fish</b>
-                        </p>
-                    </a>
-                    <!-- End Tagged Pets Section-->
+                {% endfor %}
 
                     <!-- Date of Publication or edit of the Photo -->
-                    <h5 class="postTime">19/09/2022</h5>
+                    <h5 class="postTime">{{ photo.publication_date }}</h5>
 
                     <!-- Start Comments Section -->
                     <div class="comments">
