@@ -1,4 +1,5 @@
 # photos/models.py
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
@@ -18,6 +19,7 @@ There should be created one more field that will be automatically generated:
 •	Date of publication - when a picture is added or edited, the date of publication is automatically generated
 
 '''
+UserModel = get_user_model()
 
 
 class Photo(StrFromFieldsMixin, models.Model):
@@ -64,4 +66,9 @@ class Photo(StrFromFieldsMixin, models.Model):
     tagged_pets = models.ManyToManyField(
         Pet,
         blank=True,
+    )
+
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.RESTRICT,
     )
