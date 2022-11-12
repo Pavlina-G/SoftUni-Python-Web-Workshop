@@ -25,10 +25,13 @@ def index(request):
     photos = [apply_likes_count(photo) for photo in photos]
     photos = [apply_user_liked_photo(photo) for photo in photos]
 
+    user = request.user
+    # liked_photos_by_user = [apply_user_liked_photo(photo, user) for photo in photos]
     context = {
         'photos': photos,
         'comment_form': PhotoCommentForm(),
         'search_form': search_form,
+        # 'liked_photos_by_user': liked_photos_by_user,
     }
     return render(request, 'common/home-page.html', context, )
 

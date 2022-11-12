@@ -5,7 +5,7 @@
     <div class="top">
         <div class="userDetails">
             <!-- Link to User Profile Page -->
-            <a href="{% url 'details user' pk=request.user.pk %}">
+            <a href="{% url 'details user' pk=photo.user.pk %}">
                 <div class="profilepic">
                     <div class="profile_img">
                         <div class="image">
@@ -16,7 +16,7 @@
             </a>
             <h3>
                 <!-- Link to User Profile Page -->
-                <a href="{% url 'details user' pk=request.user.pk %}">
+                <a href="{% url 'details user' pk=photo.user.pk %}">
                     <!-- if user has first name and last name -->
                     {% if photo.user.get_full_name %}
                         {{ photo.user.get_full_name }}
