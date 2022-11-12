@@ -9,10 +9,7 @@
             </h1>
             <div class="sure-buttons">
                 <!-- Yes (Delete Profile) Button -->
-                <form method="post" action="{% url 'delete user' pk=object.pk %}">
                 <button>Yes</button>
-                    {% csrf_token %}
-                </form>
                 <!-- Go Back Button -->
                 <a class="edit-btn" href="javascript:history.back()">Go Back</a>
             </div>

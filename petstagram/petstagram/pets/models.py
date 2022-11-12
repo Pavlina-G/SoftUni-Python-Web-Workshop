@@ -1,5 +1,4 @@
 # pets/models.py
-from django.contrib.auth import get_user_model
 from django.core.validators import URLValidator
 from django.db import models
 from django.template.defaultfilters import slugify
@@ -13,7 +12,6 @@ The fields Name and Pet Photo are required:
 The field date of birth is optional:
 •	Date of Birth - pet's day, month, and year of birth
 '''
-UserModel = get_user_model()
 
 
 class Pet(StrFromFieldsMixin, models.Model):
@@ -45,11 +43,6 @@ class Pet(StrFromFieldsMixin, models.Model):
     date_of_birth = models.DateField(
         null=True,
         blank=True,
-    )
-
-    user = models.ForeignKey(
-        UserModel,
-        on_delete=models.RESTRICT,
     )
 
     def save(self, *args, **kwargs):
