@@ -1,7 +1,8 @@
+from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from django.views import generic as views
 from django.shortcuts import render
-from django.contrib.auth import views as auth_views, get_user_model
+from django.contrib.auth import views as auth_views, get_user_model, login
 
 from petstagram.accounts.forms import UserCreateForm
 
@@ -21,6 +22,13 @@ class SignUpView(views.CreateView):
     form_class = UserCreateForm
     success_url = reverse_lazy('index')
 
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+
+        login(request, self.object)
+
+        return response
+
 
 # def register_user(request):
 #     return render(request, 'accounts/register-page.html')
@@ -32,6 +40,19 @@ class SignOutView(auth_views.LogoutView):
 class UserDetailsView(views.DetailView):
     template_name = 'accounts/profile-details-page.html'
     model = UserModel
+    photos_paginate_by = 2
+
+    def get_photos_page(self):
+        return self.request.GET.get('page', 1)
+
+    def get_paginated_photos(self):
+        page = self.get_photos_page()
+
+        photos = self.object.photo_set \
+            .order_by('-publication_date')
+
+        paginator = Paginator(photos, self.photos_paginate_by)
+        return paginator.get_page(page)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -45,6 +66,9 @@ class UserDetailsView(views.DetailView):
 
         context['photos_count'] = photos.count()
         context['likes_count'] = sum(x.photolike_set.count() for x in photos)
+
+        context['photos'] = self.get_paginated_photos()
+        context['pets'] = self.object.pet_set.all()
 
         return context
 # n+1 query problem - select_related

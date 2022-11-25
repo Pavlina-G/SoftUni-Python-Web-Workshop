@@ -73,6 +73,10 @@
                     <!-- Pet Photo -->
                     <img src="/media/{{ photo.photo }}" alt="photo of the pets {{ photo.tagged_pets.all|join:', ' }}"
                          class="cover">
+{#                    using cloudinary#}
+{#                    <img src="/media/{{ photo.photo.url }}" alt="photo of the pets {{ photo.tagged_pets.all|join:', ' }}"#}
+{#                         class="cover">#}
+
                 </div>
                 <!-- End Pet Photo -->
 

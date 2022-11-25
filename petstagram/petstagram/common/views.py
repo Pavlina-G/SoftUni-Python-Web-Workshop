@@ -25,7 +25,7 @@ def index(request):
     photos = [apply_likes_count(photo) for photo in photos]
     photos = [apply_user_liked_photo(photo) for photo in photos]
 
-    user = request.user
+    # user = request.user
     # liked_photos_by_user = [apply_user_liked_photo(photo, user) for photo in photos]
     context = {
         'photos': photos,

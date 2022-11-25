@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth import models as auth_models
 
 from petstagram.core.model_mixins import ChoicesEnumMixin
+from petstagram.core.validators import validate_only_letters
 
 '''
 Naming the User model:
@@ -32,6 +33,7 @@ class AppUser(auth_models.AbstractUser):
         max_length=MAX_LEN_FIRST_NAME,
         validators=(
             validators.MinLengthValidator(MIN_LEN_FIRST_NAME),
+            validate_only_letters,
         )
     )
 
@@ -39,6 +41,7 @@ class AppUser(auth_models.AbstractUser):
         max_length=MAX_LEN_FIRST_NAME,
         validators=(
             validators.MinLengthValidator(MIN_LEN_LAST_NAME),
+            validate_only_letters,
         )
     )
 
@@ -50,6 +53,10 @@ class AppUser(auth_models.AbstractUser):
         max_length=Gender.max_len(),
         choices=Gender.choices(),
     )
+
+    # is_verified = models.BooleanField(
+    #     default=False,
+    # )
 
     # Users log in with `email`
     # USERNAME_FIELD = 'email'

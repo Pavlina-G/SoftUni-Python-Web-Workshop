@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
 
+from cloudinary import models as cloudinary_models
+
 from petstagram.core.model_mixins import StrFromFieldsMixin
 from petstagram.pets.models import Pet
 from petstagram.photos.validators import validate_file_less_than_5mb
@@ -36,6 +38,12 @@ class Photo(StrFromFieldsMixin, models.Model):
         blank=True,
         validators=(validate_file_less_than_5mb,),
     )
+
+    # photo = cloudinary_models.CloudinaryField(
+    #     null=False,
+    #     blank=True,
+    #     # validators=(validate_file_less_than_5mb,),
+    # )
 
     description = models.CharField(
         # DB validation
